@@ -67,9 +67,8 @@ const ContactUs = ({ setSelectedPage }: Props) => {
             <span className="text-primary-500">JOIN NOW</span> TO GET IN SHAPE
           </HText>
           <p className="my-5">
-            Congue adipiscing risus commodo placerat. Tellus et in feugiat nisl
-            sapien vel rhoncus. Placerat at in enim pellentesque. Nulla
-            adipiscing leo egestas nisi elit risus sit. Nunc cursus sagittis.
+          Transform your home gym into a sanctuary of fitness and well-being with our expertly curated selection of equipment, classes, and training programs. 
+          Whether you're a seasoned athlete or just beginning your fitness journey, we're here to support you every step of the way. Elevate your workouts, achieve your goals, and embrace the power of home fitness with us.
           </p>
         </motion.div>
 
