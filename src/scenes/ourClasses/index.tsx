@@ -12,32 +12,32 @@ import Class from './Class';
 const classes: Array<ClassType> = [
   {
     name: "Weight Training Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Join our expert trainers for invigorating sessions that will challenge and inspire you every step of the way. With a focus on proper form, technique, and personalized guidance, you'll learn how to optimize your workouts for maximum results while minimizing the risk of injury.",
     image: image1
   },
   {
     name: "Yoga Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Step into your personal sanctuary and embark on a journey of self-discovery and rejuvenation with our virtual yoga class designed specifically for your home gym. Whether you're a seasoned yogi or just beginning your practice, our classes offer a sanctuary for you to explore and deepen your connection to mind, body, and spirit.",
     image: image2
   },
   {
     name: "Ab Core Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Welcome to Core Power, your go-to destination for a dynamic and effective ab core workout right in the comfort of your home gym. Designed to sculpt and strengthen your core muscles, this class will help you achieve a rock-solid midsection while improving your overall stability and posture.",
     image: image3
   },
   {
     name: "Adventure Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Embark on an exhilarating journey of discovery and excitement without ever leaving the comfort of your home gym with our virtual adventure class. Designed to awaken your sense of adventure and push your limits, this class offers an immersive experience that will transport you to breathtaking landscapes and epic challenges.",
     image: image4
   },
   {
     name: "Fitness Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Welcome to HomeFit, where your fitness goals become reality in the comfort of your own home gym! Our virtual fitness class offers a comprehensive and dynamic workout experience suitable for all fitness levels, designed to help you sculpt your body, boost your strength, and elevate your overall health and wellness.",
     image: image5
   },
   {
     name: "Training Classes",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    description: "Welcome to Home Gym Mastery, where we empower you to maximize your potential and achieve your fitness goals from the comfort of your own home gym. Our training class is designed to provide you with the knowledge, guidance, and motivation you need to take your workouts to the next level and see real results.",
     image: image6
   }
 ]
