@@ -123,7 +123,7 @@ const Benifits = ({setSelectedPage}: Props) => {
                      >
                         <p className="my-5">Welcome to our thriving community of thousands of happy members who are on a journey to transform their lives and achieve peak fitness! At our gym, we're dedicated to providing a supportive and empowering environment where individuals of all fitness levels can thrive.</p>
                         <p className="mb-5">Whether you're just starting out on your fitness journey or you're a seasoned athlete, our state-of-the-art facilities, expert trainers, and diverse range of classes cater to everyone's needs. From high-intensity interval training to calming yoga sessions, we offer a variety of workouts to help you reach your goals and keep your workouts exciting.</p>
-                        <p className="mb-5">But our gym is more than just a place to work out – it's a community where friendships are forged, achievements are celebrated, and obstacles are overcome together. Our passionate team is here to support and motivate you every step of the way, ensuring that you stay inspired and committed to your health and fitness goals.</p>
+                        
                         <p className="mb-5">Join us today and become part of our vibrant community of individuals who are not just getting fit, but also living their best lives. Your journey to a healthier, happier you starts here!</p>
                     </motion.div>
 
