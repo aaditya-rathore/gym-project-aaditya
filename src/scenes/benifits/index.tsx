@@ -10,17 +10,17 @@ const benifits: Array<BenefitType> = [
     {
         icon: <HomeModernIcon className="h-6 w-6" />,
         title: "State of the Art Facilities",
-        description: "Neque adipiscing amet amet enim. Feugiat cursus velit vitae adipiscing."
+        description: "we redefine the home gym experience with our state-of-the-art facility designed to inspire, motivate, and transform."
     },
     {
         icon: <UserGroupIcon className="h-6 w-6" />,
         title: "100's of Diverse Classes",
-        description: "Neque adipiscing amet amet enim. Feugiat cursus velit vitae adipiscing."
+        description: "your ultimate destination for an unparalleled selection of diverse fitness classes designed exclusively for your home gym. "
     },
     {
         icon: <AcademicCapIcon className="h-6 w-6" />,
         title: "Expert and Pro Trainers",
-        description: "Neque adipiscing amet amet enim. Feugiat cursus velit vitae adipiscing."
+        description: "your premier destination for expert and pro-level training programs designed to take your home gym workouts to the next level."
     }
 ];
 
