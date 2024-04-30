@@ -62,7 +62,7 @@ const OurClasses = ({setSelectedPage}: Props) => {
             >
               <div className='md:w-3/5'>
                 <HText>OUR CLASSES</HText>
-                <p className='py-5'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p className='py-5'></p>
               </div>
             </motion.div>
             <div className='mt-10 h-[353px] w-full overflow-x-auto overflow-y-hidden'>
