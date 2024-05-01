@@ -10,9 +10,10 @@ type Props = {
     isTopOfPage:boolean;
     selectedPage: SelectedPage;
     setSelectedPage: (value: SelectedPage) => void;
+    setShowModal: (value: boolean) => void
 };
 
-const Navbar = ({isTopOfPage,selectedPage,setSelectedPage}: Props) => {
+const Navbar = ({isTopOfPage,selectedPage,setSelectedPage, setShowModal}: Props) => {
     const flexBetween = 'flex items-center justify-between';
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
     const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
@@ -50,7 +51,8 @@ const Navbar = ({isTopOfPage,selectedPage,setSelectedPage}: Props) => {
                                 />
                             </div>
                             <div className={`${flexBetween} gap-8`}>
-                                <p>Sign In</p>
+                               {/* @ts-ignore */}
+                                <button  onClick={() => {setShowModal(true)}}>signIn</button>
                                 <ActionButton setSelectedPage={setSelectedPage}>Become a Member</ActionButton>
                             </div>
                         </div>

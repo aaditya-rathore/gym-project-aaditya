@@ -24,15 +24,13 @@ const ContactUs = ({ setSelectedPage }: Props) => {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const isValid = await trigger();
-    if (!isValid) {
-      console.log('isValid', isValid);
-    }
-    else {
+   
       const formData = {
         name: e.target.name.value,
         emailId: e.target.email.value,
-        message: e.target.message.value
+        password:e.target.password.value,
+        message: e.target.message.value,
+        trainer: e.target.trainer.value
       }
       const { error} = await supabase.from('User').insert([formData]).select('*')
       if (error) {
@@ -42,7 +40,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
         reset()
       }
       
-    }
+    // }
 
   };
 
@@ -125,6 +123,24 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                   {errors.email.type === "pattern" && "Invalid email address."}
                 </p>
               )}
+               <input
+                className={inputStyles}
+                type="password"
+                placeholder="password"
+                {...register("password", {
+                  required: true,
+                })}
+              />
+
+<input
+                className={inputStyles}
+                type="text"
+                placeholder="Trainer"
+                {...register("trainer", {
+                  required: true,
+                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                })}
+              />
 
               <textarea
                 className={inputStyles}

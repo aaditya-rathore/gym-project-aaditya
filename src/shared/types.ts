@@ -13,6 +13,7 @@ export interface BenefitType {
 
 export interface ClassType {
     name: string;
-    description?: string;
+    description?: string ;
+    rating?:JSX.Element
     image: string;
 }

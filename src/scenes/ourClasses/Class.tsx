@@ -2,7 +2,7 @@
 
 type Props = {
     name: string;
-    description?: string;
+    description?: string|JSX.Element;
     image: string;
 }
 
