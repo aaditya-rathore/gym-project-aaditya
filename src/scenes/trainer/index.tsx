@@ -7,7 +7,7 @@ import HText from '@/shared/HText';
 import Class from './Class';
 import { useEffect, useState } from 'react';
 import supabase from '../supabase';
-import { json } from 'stream/consumers';
+
 
 const classes: Array<ClassType> = [
   {
@@ -110,10 +110,11 @@ getRatings()
 
   const handleStarClick =async (index:number) => {
     const updatedStars = stars.map((star, i) => i <= index ? true : false);
+    
     setStars(updatedStars);
     alert(`thank you for rating ${trainer} as ${index+1} stars`);
 
-    const { data, error } = await supabase
+    const { data } = await supabase
     .from('Rating')
     .insert([
       { trainer_name: trainer, rating: index+1 },

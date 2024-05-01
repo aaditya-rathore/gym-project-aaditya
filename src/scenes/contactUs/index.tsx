@@ -17,7 +17,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
 
   const {
     register,
-    trigger,
+    
     formState: { errors },
     reset
   } = useForm();
