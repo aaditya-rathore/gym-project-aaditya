@@ -109,7 +109,13 @@ getRatings()
   }, [render])
 
   const handleStarClick =async (index:number) => {
-    const updatedStars = stars.map((star, i) => i <= index ? true : false);
+    const updatedStars = stars.map((star, i) => {
+      if (i <= index) {
+        return true;
+      } else {
+        return star;
+      }
+    });
     
     setStars(updatedStars);
     alert(`thank you for rating ${trainer} as ${index+1} stars`);
