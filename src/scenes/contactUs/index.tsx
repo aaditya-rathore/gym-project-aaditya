@@ -5,10 +5,12 @@ import ContactUsPageGraphic from '@/assets/ContactUsPageGraphic.png';
 import HText from '@/shared/HText';
 import supabase from '../supabase';
 import { toast } from 'sonner';
+import { Dispatch, SetStateAction } from 'react';
+import { Session } from '@supabase/supabase-js';
 
 type Props = {
   setSelectedPage: (value: SelectedPage) => void;
-  setAuthDetails: (value: string) => void;
+  setAuthDetails: Dispatch<SetStateAction<Session | null>>;
 };
 
 const ContactUs = ({ setSelectedPage, setAuthDetails }: Props) => {
@@ -54,7 +56,7 @@ const ContactUs = ({ setSelectedPage, setAuthDetails }: Props) => {
     } else {
       toast.success('Sign up successful');
       reset();
-      setAuthDetails(data);
+      setAuthDetails(data?.session);
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import Logo from '@/assets/Logo.png';
 import Link from './Link';
@@ -6,14 +6,16 @@ import { SelectedPage } from '@/shared/types';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import ActionButton from '@/shared/ActionButton';
 import { toast } from 'sonner';
+import { Session } from '@supabase/supabase-js';
+import supabase from '../supabase';
 
 type Props = {
   isTopOfPage: boolean;
   selectedPage: SelectedPage;
   setSelectedPage: (value: SelectedPage) => void;
   setShowModal: (value: boolean) => void;
-  appDetails: any;
-  setAuthDetails: React.SetStateAction<unknown>;
+  appDetails: Session | null;
+  setAuthDetails: Dispatch<SetStateAction<Session | null>>;
 };
 
 const Navbar = ({
@@ -30,6 +32,16 @@ const Navbar = ({
   const navbarBackground = isTopOfPage ? '' : 'bg-primary-100 drop-shadow';
   const { user } = appDetails || {};
   const { email } = user || {};
+
+  const handleLogOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Logged out successfully');
+      setAuthDetails(null);
+    }
+  };
 
   return (
     <nav>
@@ -68,17 +80,7 @@ const Navbar = ({
                 </div>
                 <div className={`${flexBetween} gap-8`}>
                   {email ? (
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem(
-                          'sb-zbmroyocrfoxcwfzeebn-auth-token'
-                        );
-                        setAuthDetails({});
-                        toast.success('Logged out successfully');
-                      }}
-                    >
-                      {email}
-                    </button>
+                    <button onClick={handleLogOut}>{email}</button>
                   ) : (
                     <button
                       onClick={() => {

@@ -1,21 +1,25 @@
 import { login } from '@/authentication/apiAuth';
+import { Session } from '@supabase/supabase-js';
 import { Dispatch, SetStateAction } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 
 type SignInProps = {
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  setAuthDetails: Dispatch<SetStateAction<object>>;
+  setAuthDetails: Dispatch<SetStateAction<Session | null>>;
 };
 
 function SignIn({ setShowModal, setAuthDetails }: SignInProps) {
-  const { register } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-  const handleSubmitLogin = async (e: unknown) => {
-    e.preventDefault();
-    const res = await login(e.target.email.value, e.target.password.value);
+  const handleSubmitLogin = async (data: FieldValues) => {
+    const res = await login(data.email, data.password);
     if (res?.isLoggedIn) {
       setShowModal(false);
-      setAuthDetails(res?.data);
+      setAuthDetails(res?.data?.session || null);
     }
   };
 
@@ -27,7 +31,7 @@ function SignIn({ setShowModal, setAuthDetails }: SignInProps) {
           <button onClick={() => setShowModal(false)}>X</button>
         </div>
         <hr />
-        <form onSubmit={(e) => handleSubmitLogin(e)}>
+        <form onSubmit={handleSubmit(handleSubmitLogin)}>
           <input
             className={
               'mb-5 w-full rounded-lg bg-primary-300 px-5 py-3 placeholder-white'
@@ -38,8 +42,10 @@ function SignIn({ setShowModal, setAuthDetails }: SignInProps) {
             {...register('email', {
               required: true,
               maxLength: 100,
+              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
             })}
           />
+          {errors.email && <p>Invalid email</p>}
           <input
             className={
               'mb-5 w-full rounded-lg bg-primary-300 px-5 py-3 placeholder-white'
@@ -52,6 +58,7 @@ function SignIn({ setShowModal, setAuthDetails }: SignInProps) {
               maxLength: 100,
             })}
           />
+          {errors.password && <p>Invalid password</p>}
           <button
             type='submit'
             className='border border-primary-500 rounded-lg py-2 px-4 text-center hover:bg-primary-500 hover:text-white'
