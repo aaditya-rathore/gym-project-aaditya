@@ -9,37 +9,40 @@ import { useEffect, useState } from 'react';
 import supabase from '../supabase';
 import { toast } from 'sonner';
 
-const classes: Array<ClassType> = [
-  {
-    name: 'Aaditya',
-    rating: <StarRating trainer='Aaditya' />,
+const getTrainers = (isLoggedIn: boolean) => {
+  const trainers: Array<ClassType> = [
+    {
+      name: 'Aaditya',
+      rating: <StarRating isLoggedIn={isLoggedIn} trainer='Aaditya' />,
 
-    description: 'Experience: 5 years\nDuration:60 minutes',
-    image: image1,
-  },
-  {
-    name: 'Rishi',
-    rating: <StarRating trainer={'Rishi'} />,
-    description: 'Experience: 8 years\nDuration:90 minutes',
-    image: image2,
-  },
-  {
-    name: 'Sahitya',
-    rating: <StarRating trainer={'Sahitya'} />,
-    description: 'Experience: 5.6 years\nDuration:90 minutes',
-    image: image3,
-  },
-];
+      description: 'Experience: 5 years\nDuration:60 minutes',
+      image: image1,
+    },
+    {
+      name: 'Rishi',
+      rating: <StarRating isLoggedIn={isLoggedIn} trainer={'Rishi'} />,
+      description: 'Experience: 8 years\nDuration:90 minutes',
+      image: image2,
+    },
+    {
+      name: 'Sahitya',
+      rating: <StarRating isLoggedIn={isLoggedIn} trainer={'Sahitya'} />,
+      description: 'Experience: 5.6 years\nDuration:90 minutes',
+      image: image3,
+    },
+  ];
+  return trainers;
+};
+
 type Props = {
+  isLoggedIn: boolean;
   setSelectedPage: (value: SelectedPage) => void;
 };
 
-const OurTrainer = ({ setSelectedPage }: Props) => {
+const OurTrainer = ({ setSelectedPage, isLoggedIn }: Props) => {
   return (
-    <section id='ourclasses' className='w-full bg-primary-100 py-40'>
-      <motion.div
-        onViewportEnter={() => setSelectedPage(SelectedPage.OurClasses)}
-      >
+    <section id='trainer' className='w-full bg-primary-100 py-40'>
+      <motion.div onViewportEnter={() => setSelectedPage(SelectedPage.Trainer)}>
         <motion.div
           className='mx-auto w-5/6'
           initial='hidden'
@@ -58,7 +61,7 @@ const OurTrainer = ({ setSelectedPage }: Props) => {
         </motion.div>
         <div className='mt-10 h-[353px] mx-auto flex items-center justify-center w-full overflow-x-auto overflow-y-hidden'>
           <ul className=' whitespace-nowrap'>
-            {classes.map((item, index) => (
+            {getTrainers(isLoggedIn).map((item, index) => (
               <Class
                 key={`${item.name}-${index}`}
                 name={item.name}
@@ -78,12 +81,37 @@ export default OurTrainer;
 
 type PropsRating = {
   trainer?: string;
+  isLoggedIn?: boolean;
 };
-function StarRating({ trainer }: PropsRating) {
+function StarRating({ trainer, isLoggedIn }: PropsRating) {
   const [stars, setStars] = useState([false, false, false, false, false]);
   const [render, setRender] = useState(false);
   const [count, setCount] = useState<number | null>(0);
   const [avgRating, setAvgRating] = useState<number | null>(0);
+
+  const handleStarClick = async (index: number) => {
+    if (!isLoggedIn) {
+      toast.error('Please login to rate');
+      return;
+    }
+    const updatedStars = stars.map((star, i) => {
+      if (i <= index) {
+        return true;
+      } else {
+        return star;
+      }
+    });
+
+    setStars(updatedStars);
+    toast.success(`Thank you for rating ${trainer} as ${index + 1} stars`);
+
+    await supabase
+      .from('Rating')
+      .insert([{ trainer_name: trainer, rating: index + 1 }])
+      .select();
+    setRender((prev) => !prev);
+  };
+
   useEffect(() => {
     const getRatings = async () => {
       const { data, error } = await supabase
@@ -105,25 +133,6 @@ function StarRating({ trainer }: PropsRating) {
     getRatings();
   }, [render]);
 
-  const handleStarClick = async (index: number) => {
-    const updatedStars = stars.map((star, i) => {
-      if (i <= index) {
-        return true;
-      } else {
-        return star;
-      }
-    });
-
-    setStars(updatedStars);
-    toast.success(`Thank you for rating ${trainer} as ${index + 1} stars`);
-
-    await supabase
-      .from('Rating')
-      .insert([{ trainer_name: trainer, rating: index + 1 }])
-      .select();
-    setRender((prev) => !prev);
-  };
-
   return (
     <>
       <div className='flex justify-center items-center'>
@@ -137,7 +146,7 @@ function StarRating({ trainer }: PropsRating) {
           </div>
         ))}
       </div>
-      <p>avg rating: {avgRating}</p>
+      <p>Avg rating: {(avgRating || 0)?.toFixed(1) || 0}</p>
       <p>Total Rating: {count}</p>
     </>
   );
