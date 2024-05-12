@@ -1,59 +1,73 @@
-import { useForm } from "react-hook-form";
-import { SelectedPage } from "@/shared/types";
-import { motion } from "framer-motion";
-import ContactUsPageGraphic from "@/assets/ContactUsPageGraphic.png";
-import HText from "@/shared/HText";
-import supabase from "../supabase";
+import { FieldValues, useForm } from 'react-hook-form';
+import { SelectedPage } from '@/shared/types';
+import { motion } from 'framer-motion';
+import ContactUsPageGraphic from '@/assets/ContactUsPageGraphic.png';
+import HText from '@/shared/HText';
+import supabase from '../supabase';
+import { toast } from 'sonner';
 
 type Props = {
   setSelectedPage: (value: SelectedPage) => void;
+  setAuthDetails: (value: string) => void;
 };
 
-const ContactUs = ({ setSelectedPage }: Props) => {
+const ContactUs = ({ setSelectedPage, setAuthDetails }: Props) => {
   const inputStyles = `mb-5 w-full rounded-lg bg-primary-300
   px-5 py-3 placeholder-white`;
 
-  
-
   const {
     register,
-    
     formState: { errors },
-    reset
+    handleSubmit,
+    getValues,
+    reset,
   } = useForm();
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
-   
-      const formData = {
-        name: e.target.name.value,
-        emailId: e.target.email.value,
-        password:e.target.password.value,
-        message: e.target.message.value,
-        trainer: e.target.trainer.value
-      }
-      const { error} = await supabase.from('User').insert([formData]).select('*')
-      if (error) {
-        console.log(error);
-      } else {
-        alert('Form submitted successfully!');
-        reset()
-      }
-      
-    // }
+  const signUp = async ({
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+        },
+      },
+    });
+    return { data, error };
+  };
 
+  const onSubmit = async (formData: FieldValues) => {
+    const { name, email, password } = formData;
+    const { data, error } = await signUp({ name, email, password });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    } else {
+      toast.success('Sign up successful');
+      reset();
+      setAuthDetails(data);
+    }
   };
 
   return (
-    <section id="contactus" className="mx-auto w-5/6 pt-24 pb-32">
+    <section id='contactus' className='mx-auto w-5/6 pt-24 pb-32'>
       <motion.div
         onViewportEnter={() => setSelectedPage(SelectedPage.ContactUs)}
       >
         {/* HEADER */}
         <motion.div
-          className="md:w-3/5"
-          initial="hidden"
-          whileInView="visible"
+          className='md:w-3/5'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5 }}
           variants={{
@@ -62,20 +76,24 @@ const ContactUs = ({ setSelectedPage }: Props) => {
           }}
         >
           <HText>
-            <span className="text-primary-500">JOIN NOW</span> TO GET IN SHAPE
+            <span className='text-primary-500'>JOIN NOW</span> TO GET IN SHAPE
           </HText>
-          <p className="my-5">
-          Transform your home gym into a sanctuary of fitness and well-being with our expertly curated selection of equipment, classes, and training programs. 
-          Whether you're a seasoned athlete or just beginning your fitness journey, we're here to support you every step of the way. Elevate your workouts, achieve your goals, and embrace the power of home fitness with us.
+          <p className='my-5'>
+            Transform your home gym into a sanctuary of fitness and well-being
+            with our expertly curated selection of equipment, classes, and
+            training programs. Whether you're a seasoned athlete or just
+            beginning your fitness journey, we're here to support you every step
+            of the way. Elevate your workouts, achieve your goals, and embrace
+            the power of home fitness with us.
           </p>
         </motion.div>
 
         {/* FORM AND IMAGE */}
-        <div className="mt-10 justify-between gap-8 md:flex">
+        <div className='mt-10 justify-between gap-8 md:flex'>
           <motion.div
-            className="mt-10 basis-3/5 md:mt-0"
-            initial="hidden"
-            whileInView="visible"
+            className='mt-10 basis-3/5 md:mt-0'
+            initial='hidden'
+            whileInView='visible'
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.5 }}
             variants={{
@@ -83,97 +101,76 @@ const ContactUs = ({ setSelectedPage }: Props) => {
               visible: { opacity: 1, y: 0 },
             }}
           >
-            <form
-              target="_blank"
-              onSubmit={onSubmit}
-              action="https://formsubmit.co/aadityaaadityarathore@gmail.com"
-              method="POST"
-            >
-              
+            <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 className={inputStyles}
-                type="text"
-                placeholder="NAME"
-                {...register("name", {
-                  required: true,
-                  maxLength: 100,
+                type='text'
+                placeholder='NAME'
+                {...register('name', {
+                  required: 'This field is required.',
                 })}
               />
               {errors.name && (
-                <p className="mt-1 text-primary-500">
-                  {errors.name.type === "required" && "This field is required."}
-                  {errors.name.type === "maxLength" &&
-                    "Max length is 100 char."}
+                <p className='mt-1 text-primary-500'>
+                  {errors.name.message as React.ReactNode}
                 </p>
               )}
-
               <input
                 className={inputStyles}
-                type="text"
-                placeholder="EMAIL"
-                {...register("email", {
-                  required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                type='email'
+                placeholder='EMAIL'
+                {...register('email', {
+                  required: 'This field is required.',
                 })}
               />
               {errors.email && (
-                <p className="mt-1 text-primary-500">
-                  {errors.email.type === "required" &&
-                    "This field is required."}
-                  {errors.email.type === "pattern" && "Invalid email address."}
+                <p className='mt-1 text-primary-500'>
+                  {errors.email.message as React.ReactNode}
                 </p>
               )}
-               <input
+              <input
                 className={inputStyles}
-                type="password"
-                placeholder="password"
-                {...register("password", {
-                  required: true,
+                type='password'
+                placeholder='PASSWORD'
+                {...register('password', {
+                  required: 'This field is required.',
+                  minLength: {
+                    value: 8,
+                    message: 'Min length is 8 char.',
+                  },
                 })}
               />
-
-<input
-                className={inputStyles}
-                type="text"
-                placeholder="Trainer"
-                {...register("trainer", {
-                  required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                })}
-              />
-
-              <textarea
-                className={inputStyles}
-                placeholder="MESSAGE"
-                rows={4}
-                cols={50}
-                {...register("message", {
-                  required: true,
-                  maxLength: 2000,
-                })}
-              />
-              {errors.message && (
-                <p className="mt-1 text-primary-500">
-                  {errors.message.type === "required" &&
-                    "This field is required."}
-                  {errors.message.type === "maxLength" &&
-                    "Max length is 2000 char."}
+              {errors.password && (
+                <p className='mt-1 text-primary-500'>
+                  {errors.password.message as React.ReactNode}
                 </p>
               )}
-
-              <button
-                type="submit"
-                className="mt-5 rounded-lg bg-secondary-500 px-20 py-3 transition duration-500 hover:text-white"
-              >
+              <input
+                className={inputStyles}
+                type='password'
+                placeholder='CONFIRM PASSWORD'
+                {...register('confirmPassword', {
+                  required: 'This field is required.',
+                  validate: (value) =>
+                    value === getValues().password || 'Passwords do not match.',
+                  minLength: { value: 8, message: 'Min length is 8 char.' },
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className='mt-1 text-primary-500'>
+                  {errors.confirmPassword.message as React.ReactNode}
+                </p>
+              )}
+              <button type='submit' className={inputStyles}>
                 SUBMIT
               </button>
             </form>
           </motion.div>
 
           <motion.div
-            className="relative mt-16 basis-2/5 md:mt-0"
-            initial="hidden"
-            whileInView="visible"
+            className='relative mt-16 basis-2/5 md:mt-0'
+            initial='hidden'
+            whileInView='visible'
             viewport={{ once: true, amount: 0.5 }}
             transition={{ delay: 0.2, duration: 0.5 }}
             variants={{
@@ -181,10 +178,10 @@ const ContactUs = ({ setSelectedPage }: Props) => {
               visible: { opacity: 1, y: 0 },
             }}
           >
-            <div className="w-full before:absolute before:-bottom-20 before:-right-10 before:z-[-1] md:before:content-evolvetext">
+            <div className='w-full before:absolute before:-bottom-20 before:-right-10 before:z-[-1] md:before:content-evolvetext'>
               <img
-                className="w-full"
-                alt="contact-us-page-graphic"
+                className='w-full'
+                alt='contact-us-page-graphic'
                 src={ContactUsPageGraphic}
               />
             </div>
