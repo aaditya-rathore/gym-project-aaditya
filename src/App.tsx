@@ -18,7 +18,7 @@ function App() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true);
   const [authDetails, setAuthDetails] = useState<Session | null>(null);
-
+  const isLoggedIn = authDetails?.user?.aud === 'authenticated' || false;
   useEffect(() => {
     const session = localStorage.getItem('sb-zbmroyocrfoxcwfzeebn-auth-token');
     setAuthDetails(session ? JSON.parse(session) : null);
@@ -50,14 +50,14 @@ function App() {
       <Benifits setSelectedPage={setSelectedPage} />
       <OurClasses setSelectedPage={setSelectedPage} />
 
-      {!authDetails?.access_token && (
+      {!isLoggedIn && (
         <ContactUs
           setSelectedPage={setSelectedPage}
           setAuthDetails={setAuthDetails}
         />
       )}
 
-      <OurTrainer setSelectedPage={setSelectedPage} />
+      <OurTrainer isLoggedIn={isLoggedIn} setSelectedPage={setSelectedPage} />
 
       {showModal && (
         <SignIn setShowModal={setShowModal} setAuthDetails={setAuthDetails} />

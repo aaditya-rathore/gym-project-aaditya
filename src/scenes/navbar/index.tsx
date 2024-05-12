@@ -73,7 +73,7 @@ const Navbar = ({
                     setSelectedPage={setSelectedPage}
                   />
                   <Link
-                    page='Contact Us'
+                    page='Our Trainers'
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
@@ -90,9 +90,11 @@ const Navbar = ({
                       Sign In
                     </button>
                   )}
-                  <ActionButton setSelectedPage={setSelectedPage}>
-                    Become a Member
-                  </ActionButton>
+                  {appDetails?.user?.aud !== 'authenticated' && (
+                    <ActionButton setSelectedPage={setSelectedPage}>
+                      Become a Member
+                    </ActionButton>
+                  )}
                 </div>
               </div>
             ) : (
