@@ -12,23 +12,26 @@ import { toast } from 'sonner';
 const getTrainers = (isLoggedIn: boolean) => {
   const trainers: Array<ClassType> = [
     {
-      name: 'Aaditya',
+      name: 'Rishabh',
       rating: <StarRating isLoggedIn={isLoggedIn} trainer='Aaditya' />,
 
-      description: 'Experience: 5 years\nDuration:60 minutes',
+      description: 'Experience: 8 years\nDuration:60 minutes',
       image: image1,
+      link: 'https://openinapp.link/p5imr',
     },
     {
-      name: 'Rishi',
+      name: 'Anoop pandey',
       rating: <StarRating isLoggedIn={isLoggedIn} trainer={'Rishi'} />,
-      description: 'Experience: 8 years\nDuration:90 minutes',
+      description: 'Experience: 7 years\nDuration:90 minutes',
       image: image2,
+      link: 'https://openinapp.link/deac5',
     },
     {
-      name: 'Sahitya',
+      name: 'vijay',
       rating: <StarRating isLoggedIn={isLoggedIn} trainer={'Sahitya'} />,
-      description: 'Experience: 5.6 years\nDuration:90 minutes',
+      description: 'Experience: 5 years\nDuration:90 minutes',
       image: image3,
+      link: 'https://openinapp.link/pbs4c',
     },
   ];
   return trainers;
@@ -68,6 +71,7 @@ const OurTrainer = ({ setSelectedPage, isLoggedIn }: Props) => {
                 description={item.description}
                 rating={item.rating}
                 image={item.image}
+                link={item.link as string}
               />
             ))}
           </ul>
@@ -141,6 +145,7 @@ function StarRating({ trainer, isLoggedIn }: PropsRating) {
             key={index}
             onClick={() => handleStarClick(index)}
             style={{ cursor: 'pointer' }}
+            className='text-3xl'
           >
             {filled ? <span>&#9733;</span> : <span>&#9734;</span>}
           </div>
@@ -151,3 +156,4 @@ function StarRating({ trainer, isLoggedIn }: PropsRating) {
     </>
   );
 }
+
