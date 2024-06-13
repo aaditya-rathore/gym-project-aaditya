@@ -16,5 +16,6 @@ export interface ClassType {
   name: string;
   description?: string;
   rating?: JSX.Element;
+  link?: string;
   image: string;
 }
